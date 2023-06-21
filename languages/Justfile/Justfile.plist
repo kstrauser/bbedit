@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BBEditDocumentType</key>
+	<string>CodelessLanguageModule</string>
+	<key>BBLMColorsSyntax</key>
+	<true/>
+	<key>BBLMFilenameExtensions</key>
+	<array>
+		<string>mk</string>
+	</array>
+	<key>BBLMFileNamesToMatch</key>
+	<array>
+		<string>Justfile</string>
+		<string>.justfile</string>
+	</array>
+	<key>BBLMIsCaseSensitive</key>
+	<true/>
+	<key>BBLMKeywords</key>
+	<array>
+		<dict>
+			<key>RunKind</key>
+			<string>com.barebones.bblm.keyword</string>
+			<key>Keywords</key>
+			<array>
+				<string>alias</string>
+				<string>else</string>
+				<string>export</string>
+				<string>if</string>
+				<string>set</string>
+			</array>
+		</dict>
+		<dict>
+			<key>RunKind</key>
+			<string>com.barebones.bblm.file-include</string>
+			<key>Keywords</key>
+			<array>
+				<string>-include</string>
+				<string>include</string>
+				<string>sinclude</string>
+			</array>
+		</dict>
+		<dict>
+			<key>RunKind</key>
+			<string>com.barebones.bblm.predefined-symbol</string>
+			<key>Keywords</key>
+			<array>
+				<string>arch</string>
+				<string>os</string>
+				<string>os_family</string>
+				<string>env_var</string>
+				<string>env_var_or_default</string>
+				<string>invocation_directory</string>
+				<string>invocation_directory_native</string>
+				<string>justfile</string>
+				<string>justfile_directory</string>
+				<string>just_executable</string>
+				<string>quote</string>
+				<string>replace</string>
+				<string>replace_regex</string>
+				<string>trim</string>
+				<string>trim_end</string>
+				<string>trim_end_match</string>
+				<string>trim_end_matches</string>
+				<string>trim_start</string>
+				<string>trim_start_match</string>
+				<string>trim_start_matches</string>
+				<string>capitalize</string>
+				<string>kebabcase</string>
+				<string>lowercamelcase</string>
+				<string>lowercase</string>
+				<string>shoutykebabcase</string>
+				<string>shoutysnakecase</string>
+				<string>snakecase</string>
+				<string>titlecase</string>
+				<string>uppercamelcase</string>
+				<string>uppercase</string>
+				<string>absolute_path</string>
+				<string>extension</string>
+				<string>file_name</string>
+				<string>file_stem</string>
+				<string>parent_directory</string>
+				<string>without_extension</string>
+				<string>clean</string>
+				<string>join</string>
+				<string>path_exists</string>
+				<string>error</string>
+				<string>sha256</string>
+				<string>sha256_file</string>
+				<string>uuid</string>
+			</array>
+		</dict>
+		<dict>
+			<key>RunKind</key>
+			<string>com.barebones.bblm.variable</string>
+			<key>Keywords</key>
+			<array>
+				<string>allow-duplicate-recipes</string>
+				<string>dotenv-load</string>
+				<string>export</string>
+				<string>fallback</string>
+				<string>ignore-comments</string>
+				<string>positional-arguments</string>
+				<string>shell</string>
+				<string>tempdir</string>
+				<string>windows-powershell</string>
+				<string>windows-shell</string>
+			</array>
+		</dict>
+		<dict>
+			<key>RunKind</key>
+			<string>com.barebones.bblm.preprocessor</string>
+			<key>Keywords</key>
+			<array>
+				<string>no-cd</string>
+				<string>no-exit-message</string>
+				<string>linux</string>
+				<string>macos</string>
+				<string>unix</string>
+				<string>windows</string>
+				<string>private</string>
+			</array>
+		</dict>	
+	</array>
+	<key>BBLMLanguageCode</key>
+	<string>Just</string>
+	<key>BBLMLanguageDisplayName</key>
+	<string>Justfile</string>
+	<key>BBLMReferenceSearchURLTemplate</key>
+	<string>https://www.google.com/search?q=__SYMBOLNAME__+site:just.systems</string>
+	<key>BBLMScansFunctions</key>
+	<true/>
+	<key>BBLMSupportsTextCompletion</key>
+	<true/>
+	<key>BBLMCommentLineDefault</key>
+	<string># </string>
+	<key>Language Features</key>
+	<dict>
+		<key>Comment Pattern</key>
+		<string>#.*$</string>
+		<key>Function Pattern</key>
+		<string>^(?P&lt;function&gt;(?P&lt;function_name&gt;[\S]+?):.*$(\r[ \t]+.*)*)</string>
+		<key>Number Pattern</key><!-- appropriating for .PHONY -->
+		<string>^\.PHONY:[^\\\r]*(\\\r[^\\\r]*)*</string>
+		<key>String Pattern</key>
+		<string>(?x:
+			(?&gt;	"	(?s: \\. | [^"] )*?		(?: " | $)	)	|
+			(?&gt;	'	(?s: \\. | [^'] )*?		(?: ' | $)	)	|
+			(?&gt;	`	(?s: \\. | [^`] )*?		(?: ` | $)	)
+		)</string>
+		<key>Skip Pattern</key>
+		<string>(?x:
+			(?P&gt;comment)	|
+			(?P&gt;number)	|
+			(?P&gt;string)
+		)</string>
+		<key>Identifier and Keyword Character Class</key>
+		<string>[:alnum:]_\.\-\\/:;,</string>
+	</dict>
+	<key>com.barebones.DocumentType</key>
+	<string>CodelessLanguageModule</string>
+</dict>
+</plist>
