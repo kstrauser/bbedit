@@ -135,6 +135,15 @@
 	<true/>
 	<key>BBLMCommentLineDefault</key>
 	<string># </string>
+    <key>BBLMKeywordPatterns</key>
+    <array>
+        <dict>
+            <key>RunKind</key>
+            <string>com.barebones.bblm.indexed-symbol</string>
+            <key>Pattern</key>
+			<string>^([\S]+?):</string>
+        </dict>
+    </array>
 	<key>Language Features</key>
 	<dict>
 		<key>Comment Pattern</key>
