@@ -6,10 +6,6 @@
 	<string>CodelessLanguageModule</string>
 	<key>BBLMColorsSyntax</key>
 	<true/>
-	<key>BBLMFilenameExtensions</key>
-	<array>
-		<string>mk</string>
-	</array>
 	<key>BBLMFileNamesToMatch</key>
 	<array>
 		<string>Justfile</string>
