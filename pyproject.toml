@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "bbedit-extras"
+version = "0.1.0"
+description = "Things I made for BBEdit"
+authors = ["Kirk Strauser <kirk@strauser.com>"]
+readme = "README.md"
+license = "Apache-2.0"
+packages = [{include = "scripts"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+xdg = "^6.0.0"
+pyyaml = "^6.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+'Push current point' = 'scripts.jump_points:push'
+'Pop point' = 'scripts.jump_points:pop'
+
+[tool.black]
+line-length = 99
+
+[tool.mypy]
+check_untyped_defs = true
