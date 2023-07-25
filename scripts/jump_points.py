@@ -25,8 +25,11 @@ class JumpPoint:
     filename: str
     line: int
     column: int
-    bbedit_pid: int
     added: dt.datetime
+
+
+# A time-ordered list of points from different BBEdit processes.
+PointsMap = dict[int, list[JumpPoint]]
 
 
 def front_app_pid() -> int:
@@ -48,31 +51,48 @@ def localtime() -> dt.datetime:
     return dt.datetime.now(dt.timezone.utc).astimezone()
 
 
-def get_points(path: Path, oldest_time: dt.datetime) -> list[JumpPoint]:
-    """Return the list of saved editing points."""
+def get_points(path: Path, oldest_time: dt.datetime) -> PointsMap:
+    """Return the collection of saved editing points."""
 
     try:
         content = path.read_text()
     except FileNotFoundError:
         LOG.info(f"{POINTS_FILE=} doesn't exist.")
-        return []
+        return {}
 
-    point_list = yaml.safe_load(content)["points"]
-    points = [
-        point
-        for point_data in point_list
-        if (point := JumpPoint(**point_data)).added >= oldest_time
-    ]
-    LOG.debug(f"Loaded {points=}")
-    return points
+    points_data = yaml.safe_load(content)["points"]
+    points_map: PointsMap = {}
+
+    for pid, points in points_data.items():
+        # Collect the list of unexpired points for this pid.
+        current_points = [
+            point
+            for point_data in points
+            if (point := JumpPoint(**point_data)).added >= oldest_time
+        ]
+
+        # If the pid doesn't have any unexpired points, skip it. This also keeps the data structure
+        # from growing unbounded forever.
+        if current_points:
+            points_map[pid] = current_points
+
+    LOG.debug(f"Loaded {points_map=}")
+    return points_map
 
 
-def save_points(path: Path, points: list[JumpPoint]):
+def save_points(path: Path, points_map: PointsMap):
     """Save the list of editing points."""
 
-    LOG.debug(f"Writing {points=} to {path=}")
+    LOG.debug(f"Writing {points_map=} to {path=}")
     (path.parent).mkdir(parents=True, exist_ok=True)
-    content = yaml.dump({"points": [point.__dict__ for point in points]})
+
+    points_data: dict[int, list[dict]] = {}
+    for bbedit_pid, points in points_map.items():
+        # Only store a pid's point list if it has any left.
+        if points:
+            points_data[bbedit_pid] = [point.__dict__ for point in points]
+
+    content = yaml.dump({"points": points_data})
     path.write_text(content)
 
 
@@ -106,7 +126,6 @@ def push():
             filename=os.environ["BB_DOC_PATH"],
             line=int(os.environ["BB_DOC_SELSTART_LINE"]),
             column=int(os.environ["BB_DOC_SELSTART_COLUMN"]),
-            bbedit_pid=front_app_pid(),
             added=now,
         )
     except KeyError:
@@ -115,37 +134,33 @@ def push():
 
     LOG.info(f"Storing {point=}")
 
-    points = get_points(POINTS_FILE, now - MAX_AGE)
-    points.append(point)
-    save_points(POINTS_FILE, points)
+    points_map = get_points(POINTS_FILE, now - MAX_AGE)
+    points_map.setdefault(front_app_pid(), []).append(point)
+    save_points(POINTS_FILE, points_map)
 
 
 def pop():
     """Send BBEdit back to the previous cursor point."""
 
-    setup_logging(sys.argv + ["-v", "-v", "-v"])
+    setup_logging(sys.argv)
 
-    points = get_points(POINTS_FILE, localtime() - MAX_AGE)
+    points_map = get_points(POINTS_FILE, localtime() - MAX_AGE)
 
     bbedit_pid = front_app_pid()
     LOG.debug(f"Searching for points from {bbedit_pid=}")
-    my_points = [
-        (index, point) for index, point in enumerate(points) if point.bbedit_pid == bbedit_pid
-    ]
-    LOG.debug(f"Found {my_points=}")
     try:
-        index, point = my_points[-1]
-    except IndexError:
+        pid_points = points_map[bbedit_pid]
+    except KeyError:
+        # This pid doesn't have any points? No problem.
         return
 
-    points.pop(index)
-    save_points(POINTS_FILE, points)
+    point = pid_points.pop()
+    LOG.debug(f"Found {point=}")
 
-    LOG.info(f"Restoring {point=}")
+    save_points(POINTS_FILE, points_map)
 
     bb_args = ["/usr/local/bin/bbedit", f"+{point.line}:{point.column}", point.filename]
     LOG.debug(f"Subprocess {bb_args=}")
     subprocess.check_call(
         bb_args, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
     )
-    LOG.debug("done")

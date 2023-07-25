@@ -17,8 +17,8 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-'Push current point' = 'scripts.jump_points:push'
-'Pop point' = 'scripts.jump_points:pop'
+'push_bbedit_point' = 'scripts.jump_points:push'
+'pop_bbedit_point' = 'scripts.jump_points:pop'
 
 [tool.black]
 line-length = 99
