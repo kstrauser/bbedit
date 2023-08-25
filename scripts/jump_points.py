@@ -35,7 +35,7 @@ PointsMap = dict[int, list[JumpPoint]]
 def front_app_pid() -> int:
     """Return the pid of the front process, which is exceedingly likely to be BBEdit."""
 
-    asn = subprocess.check_output(["lsappinfo", "front"])
+    asn = subprocess.check_output(["lsappinfo", "visibleProcessList"]).split()[0]
     info = subprocess.check_output(["lsappinfo", "info", asn], encoding="utf-8")
     for line in info.splitlines():
         if "pid" in line:
