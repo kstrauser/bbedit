@@ -1,0 +1,9 @@
+[submodule "upstream/bbedit-fish-clm"]
+	path = upstream/bbedit-fish-clm
+	url = https://github.com/ideabucket/bbedit-fish-clm.git
+[submodule "upstream/marked-bonus-pack"]
+	path = upstream/marked-bonus-pack
+	url = https://github.com/kotfu/marked-bonus-pack.git
+[submodule "upstream/terraform-bbedit-language"]
+	path = upstream/terraform-bbedit-language
+	url = https://github.com/halprin/terraform-bbedit-language.git

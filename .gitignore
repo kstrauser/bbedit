@@ -1,4 +1,3 @@
 .python-version
 .venv
-upstream/
 **/__pycache__/
