@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bbedit-extras"
-version = "0.1.0"
+version = "0.1.1"
 description = "Things I made for BBEdit"
 authors = ["Kirk Strauser <kirk@strauser.com>"]
 readme = "README.md"
@@ -11,6 +11,8 @@ packages = [{include = "scripts"}]
 python = "^3.11"
 xdg = "^6.0.0"
 pyyaml = "^6.0.1"
+aiohttp = "^3.9.0b0"
+openai = "^0.28.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -19,6 +21,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 'push_bbedit_point' = 'scripts.jump_points:push'
 'pop_bbedit_point' = 'scripts.jump_points:pop'
+'ChatGPT conversation' = 'scripts.chatgpt:process_stdin'
 
 [tool.black]
 line-length = 99
