@@ -1,0 +1,11 @@
+build:
+	cargo build --release
+
+install:
+	cargo install --path .
+
+test:
+	cargo test
+
+link:
+	cd "$HOME/Library/Mobile Documents/iCloud~com~barebones~bbedit/Documents/Application Support/Scripts"; ln -sf $HOME/.cargo/bin/bbedit_push_point "Push current point"; ln -sf $HOME/.cargo/bin/bbedit_pop_point "Pop point"

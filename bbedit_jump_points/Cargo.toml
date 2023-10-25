@@ -1,0 +1,13 @@
+[package]
+name = "bbedit_jump_points"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = { version = "*", features = ["serde"] }
+directories = "*"
+serde = { version = "*", features = ["derive"] }
+serde_yaml = "*"
+sysinfo = "0.29.10"
